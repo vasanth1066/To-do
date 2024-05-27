@@ -8,6 +8,7 @@ import { Fragment, useState, useEffect } from "react";
 
 export default function Home(props) {
   const [todoData, setTodoData] = useState([]);
+  // console.log(todoData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,10 +18,11 @@ export default function Home(props) {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, 1000);
 
     return () => clearInterval(interval);
   }, []);
+  const incompletedTodos = todoData.filter((todo) => !todo.isCompleted);
   return (
     <Fragment>
       <Navbar />
@@ -36,7 +38,7 @@ export default function Home(props) {
         </main>
       </div>
       <TodoList />
-      <DisplayTodo tododata={todoData} />
+      <DisplayTodo tododata={incompletedTodos} />
     </Fragment>
   );
 }

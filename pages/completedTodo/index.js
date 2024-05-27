@@ -2,10 +2,27 @@ import Head from "next/head";
 import Navbar from "../../Components/Navbar/navabar";
 
 import styles from "../../styles/Home.module.css";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import DisplayTodo from "../../Components/Todo/DisplayTodo";
 
 export default function CompleteTodo() {
+  const [todoData, setTodoData] = useState([]);
+  // console.log(todoData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/gettododata");
+      const data = await response.json();
+      setTodoData(data);
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const completedTodos = todoData.filter((todo) => todo.isCompleted);
   return (
     <Fragment>
       <Navbar />
@@ -21,7 +38,7 @@ export default function CompleteTodo() {
         </main>
       </div>
 
-      <DisplayTodo />
+      <DisplayTodo tododata={completedTodos} />
     </Fragment>
   );
 }

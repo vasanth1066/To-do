@@ -8,8 +8,25 @@ const dummytodo = [
 ];
 
 const DisplayTodo = (props) => {
-  const completeHander = () => {
+  const completeHander = async (name, id) => {
     console.log("clicked");
+    let tododata = {
+      name: name,
+      isCompleted: true,
+      status: "tododone",
+      id: id,
+    };
+    console.log(tododata, id);
+
+    const response = await fetch("/api/puttododata", {
+      method: "PUT",
+      body: JSON.stringify(tododata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
   };
   const editHander = () => {};
   const deleteteHander = () => {
@@ -22,16 +39,17 @@ const DisplayTodo = (props) => {
           <ul key={index} className={classes.todoList}>
             <li className={classes.todoItem}>
               {val.name}
-
-              <div>
+              {!val.isCompleted && (
                 <div>
                   <button
                     className={classes.completeButton}
-                    onClick={completeHander}
+                    onClick={() => completeHander(val.name, val._id)}
                   >
                     <span>&#10003;</span>
                   </button>
                 </div>
+              )}
+              <div>
                 <button className={classes.editbutton} onClick={editHander}>
                   <span>&#9998;</span>
                 </button>
