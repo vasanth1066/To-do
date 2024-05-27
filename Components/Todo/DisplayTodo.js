@@ -7,7 +7,7 @@ const dummytodo = [
   { name: "Revise Concepts" },
 ];
 
-const DisplayTodo = () => {
+const DisplayTodo = (props) => {
   const completeHander = () => {
     console.log("clicked");
   };
@@ -17,30 +17,34 @@ const DisplayTodo = () => {
   };
   return (
     <div className={classes.DisplayTodolist}>
-      {dummytodo.map((val, index) => (
-        <ul key={index} className={classes.todoList}>
-          <li className={classes.todoItem}>
-            {val.name}
+      {props.tododata &&
+        props.tododata.map((val, index) => (
+          <ul key={index} className={classes.todoList}>
+            <li className={classes.todoItem}>
+              {val.name}
 
-            <div>
               <div>
+                <div>
+                  <button
+                    className={classes.completeButton}
+                    onClick={completeHander}
+                  >
+                    <span>&#10003;</span>
+                  </button>
+                </div>
+                <button className={classes.editbutton} onClick={editHander}>
+                  <span>&#9998;</span>
+                </button>
                 <button
-                  className={classes.completeButton}
-                  onClick={completeHander}
+                  className={classes.deletebutton}
+                  onClick={deleteteHander}
                 >
-                  <span>&#10003;</span>
+                  <span>&#10005;</span>
                 </button>
               </div>
-              <button className={classes.editbutton} onClick={editHander}>
-                <span>&#9998;</span>
-              </button>
-              <button className={classes.deletebutton} onClick={deleteteHander}>
-                <span>&#10005;</span>
-              </button>
-            </div>
-          </li>
-        </ul>
-      ))}
+            </li>
+          </ul>
+        ))}
     </div>
   );
 };

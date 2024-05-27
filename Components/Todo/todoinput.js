@@ -5,10 +5,24 @@ import classes from "./todoinput.module.css";
 function TodoList() {
   const todoinputref = useRef("");
 
-  function AddtodoHandler(event) {
+  async function AddtodoHandler(event) {
     event.preventDefault();
     const todoname = todoinputref.current.value;
-    console.log(todoname);
+
+    let tododata = {
+      name: todoname,
+      isCompleted: false,
+    };
+
+    const response = await fetch("/api/hello", {
+      method: "POST",
+      body: JSON.stringify(tododata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
 
     todoinputref.current.value = "";
   }

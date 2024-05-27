@@ -4,9 +4,23 @@ import TodoList from "../Components/Todo/todoinput";
 import DisplayTodo from "../Components/Todo/DisplayTodo";
 
 import styles from "../styles/Home.module.css";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 
-export default function Home() {
+export default function Home(props) {
+  const [todoData, setTodoData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/gettododata");
+      const data = await response.json();
+      setTodoData(data);
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <Fragment>
       <Navbar />
@@ -22,7 +36,7 @@ export default function Home() {
         </main>
       </div>
       <TodoList />
-      <DisplayTodo />
+      <DisplayTodo tododata={todoData} />
     </Fragment>
   );
 }
