@@ -1,5 +1,5 @@
 import { useRef } from "react";
-
+import { Toaster, toast } from "alert";
 import classes from "./todoinput.module.css";
 
 function TodoList() {
@@ -12,6 +12,7 @@ function TodoList() {
     let tododata = {
       name: todoname,
       isCompleted: false,
+      status: "todonotdone",
     };
 
     const response = await fetch("/api/hello", {
@@ -23,6 +24,7 @@ function TodoList() {
     });
     const data = await response.json();
     console.log(data);
+    toast.success("Todo Added");
 
     todoinputref.current.value = "";
   }
@@ -33,6 +35,7 @@ function TodoList() {
         <input type="text" ref={todoinputref}></input>
         <button>Add</button>
       </form>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
