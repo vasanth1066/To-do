@@ -1,22 +1,16 @@
 import React from "react";
 import classes from "./DisplayTodo.module.css";
-
-const dummytodo = [
-  { name: "Assignment" },
-  { name: "Learn js" },
-  { name: "Revise Concepts" },
-];
+import { Toaster, toast } from "alert";
 
 const DisplayTodo = (props) => {
   const completeHander = async (name, id) => {
-    console.log("clicked");
     let tododata = {
       name: name,
       isCompleted: true,
       status: "tododone",
       id: id,
     };
-    console.log(tododata, id);
+    toast.success("Todo-Completed  !!!");
 
     const response = await fetch("/api/puttododata", {
       method: "PUT",
@@ -26,11 +20,20 @@ const DisplayTodo = (props) => {
       },
     });
     const data = await response.json();
-    console.log(data);
+
+    toast.success("To Check Completed Todo Click Completed Todo ");
   };
-  const editHander = () => {};
-  const deleteteHander = () => {
-    console.log("clicked dddd");
+
+  const deleteteHander = async (id) => {
+    const response = await fetch("/api/deletetododata", {
+      method: "DELETE",
+      body: JSON.stringify(id),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    toast.error("Todo Deleted");
   };
   return (
     <div className={classes.DisplayTodolist}>
@@ -50,12 +53,9 @@ const DisplayTodo = (props) => {
                 </div>
               )}
               <div>
-                <button className={classes.editbutton} onClick={editHander}>
-                  <span>&#9998;</span>
-                </button>
                 <button
                   className={classes.deletebutton}
-                  onClick={deleteteHander}
+                  onClick={() => deleteteHander(val._id)}
                 >
                   <span>&#10005;</span>
                 </button>
@@ -63,6 +63,7 @@ const DisplayTodo = (props) => {
             </li>
           </ul>
         ))}
+      <Toaster position="bottom-right" />
     </div>
   );
 };
