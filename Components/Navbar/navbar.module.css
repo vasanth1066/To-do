@@ -42,3 +42,23 @@
   -webkit-text-fill-color: transparent;
   }
   
+@media (max-width: 300px) {
+  .navbar ul li {
+    
+    color: rgb(89, 84, 109);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin: 0;
+    font-size: 1rem;
+  
+    
+  }
+  .navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+   
+  }
+}

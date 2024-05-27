@@ -18,6 +18,9 @@
   max-width: 400px;
   margin: 20px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word; /* Ensure words wrap */
+  word-break: break-word; /* Ensure words break if too long */
+
 }
 
 .todoItem:last-child {
